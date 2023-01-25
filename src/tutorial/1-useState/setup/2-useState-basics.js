@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 const UseStateBasics = () => {
   const [title, setTitle] = useState('Random Title')
   const titles = ['Random Title', 'Hello World', 'Another Title']
-  
+  const random = (e) => {return Math.floor(Math.random() * e.length)}
   const handleClick = () => {
-    const random = Math.floor(Math.random() * titles.length)
-    setTitle(titles[random])
+
+    setTitle(titles[random(titles)])
+
   }
   return (
     <React.Fragment>
