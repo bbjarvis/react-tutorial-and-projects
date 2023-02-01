@@ -16,29 +16,36 @@ const UseStateCounter = () => {
   }
 
   const increaseLater = () => {
-    setTimeout(increase, 3000)
+    setTimeout(() => {
+      setCount((prev) => {
+        return prev + 1
+      })
+    }, 3000)
   }
 
   return (
     <>
-      <h2>Regular Counter</h2>
-      <h1>{count}</h1>
-      <button className='btn' onClick={decrease}>
-        Decrease
-      </button>
-      <button className='btn' onClick={reset}>
-        Reset
-      </button>
-      <button className='btn' onClick={increase}>
-        Increase
-      </button>
-      <h1></h1>
+      <section style={{ margin: '4rem 0' }}>
+        <h2>Regular Counter</h2>
+        <h1>{count}</h1>
+        <button className='btn' onClick={decrease}>
+          Decrease
+        </button>
+        <button className='btn' onClick={reset}>
+          Reset
+        </button>
+        <button className='btn' onClick={increase}>
+          Increase
+        </button>
+      </section>
 
-      <h2>More Complex Counter</h2>
-      <h1>{count}</h1>
-      <button className='btn' onClick={increaseLater}>
-        Increase Later
-      </button>
+      <section style={{ margin: '4rem 0' }}>
+        <h2>More Complex Counter</h2>
+        <h1>{count}</h1>
+        <button className='btn' onClick={increaseLater}>
+          Increase Later
+        </button>
+      </section>
     </>
   )
 }
