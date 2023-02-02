@@ -5,9 +5,17 @@ import React, { useState, useEffect } from 'react'
 
 const UseEffectCleanup = () => {
   const [pixel, setPixel] = useState(window.innerWidth)
-  useEffect(() => {
+
+  const checkPixel = () => {
     setPixel(window.innerWidth)
-  })
+  }
+  useEffect(() => {
+    window.addEventListener('resize', checkPixel)
+    return () => {
+      console.log('changesize')
+      window.removeEventListener('resize', checkPixel)
+    }
+  }, [])
   return (
     <>
       <h1>Window</h1>
