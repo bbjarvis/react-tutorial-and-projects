@@ -1,7 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 const ShowHide = () => {
-  return <h2>show/hide</h2>;
-};
+  const [show, setShow] = useState(false)
+  const [size, setSize] = useState(window.innerWidth)
 
-export default ShowHide;
+  const checkSize = () => {
+    setSize(window.innerWidth)
+  }
+  useEffect(() => {
+    window.addEventListener('resize', checkSize)
+    return () => {
+      window.removeEventListener('resize', checkSize)
+    }
+  })
+  return (
+    <>
+      <button className='btn' onClick={() => setShow(!show)}>
+        show/hide
+      </button>
+      {show && (
+        <div>
+          <h1>Window</h1>
+          <h2>Size: {size}</h2>
+        </div>
+      )}
+    </>
+  )
+}
+
+export default ShowHide
