@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const url = 'https://api.github.com/users'
 const title = 'Github Users'
@@ -14,15 +15,16 @@ const UseEffectFetchData = () => {
 
     const getUsers = async () => {
       try {
-        // Pass the signal as an option to fetch
-        const response = await fetch(url, { signal })
-        const users = await response.json()
+        // Use axios.get with the signal as an option
+        const response = await axios.get(url, { cancelToken: signal })
+        // Get the data from the response object
+        const users = response.data
 
         setUsers(users)
       } catch (error) {
-        // Check if the error is caused by aborting
-        if (error.name === 'AbortError') {
-          console.log('Request aborted')
+        // Check if the error is caused by aborting or other reasons
+        if (axios.isCancel(error)) {
+          console.log('Request canceled')
         } else {
           console.log(error)
         }
