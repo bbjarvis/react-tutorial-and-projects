@@ -3,44 +3,48 @@ const url = 'https://api.github.com/users/QuincyLarson'
 const MultipleReturns = () => {
   const [loading, setLoading] = useState(true)
   const [isError, setIsError] = useState(false)
-  const [user, setUser] = useState('default user')
-
+  const [user, setUser] = useState(null)
   useEffect(() => {
-    fetch(url)
-      .then((resp) => {
-        if (resp.status >= 200 && resp.status <= 299) {
-          return resp.json()
-        } else {
-          setLoading(false)
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(url)
+        if (!res.ok) {
           setIsError(true)
-          throw new Error(resp.statusText)
+          setLoading(false)
+          return
         }
-      })
-      .then((user) => {
-        const { login } = user
-        setUser(login)
-        setLoading(false)
-      })
-      .catch((e) => console.log(e))
+        const user = await res.json()
+        console.log(user)
+        setUser(user)
+      } catch (error) {
+        console.log(error)
+        setIsError(true)
+      }
+      setLoading(false)
+    }
+    fetchUser()
   }, [])
+
   if (loading) {
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    )
+    return <h1>Loading...</h1>
   }
   if (isError) {
-    return (
-      <div>
-        <h1>Error...</h1>
-      </div>
-    )
+    return <h1>Error</h1>
   }
+  const { name, company, bio, blog, login, avatar_url, html_url } = user
 
   return (
     <div>
-      <h1>{user}</h1>
+      <a href={html_url}>
+        <h1>{name}</h1>
+      </a>
+      <a href={html_url}>
+        <img src={avatar_url} alt={login}></img>
+      </a>
+      <a href={blog}>
+        <h2> Works at {company}</h2>
+      </a>
+      <h3>{bio}</h3>
     </div>
   )
 }
