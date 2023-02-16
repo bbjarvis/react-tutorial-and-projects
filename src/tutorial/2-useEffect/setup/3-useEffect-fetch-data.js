@@ -7,17 +7,33 @@ const UseEffectFetchData = () => {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
+    // Create an AbortController object
+    const controller = new AbortController()
+    // Get its signal property
+    const signal = controller.signal
+
     const getUsers = async () => {
       try {
-        const response = await fetch(url)
+        // Pass the signal as an option to fetch
+        const response = await fetch(url, { signal })
         const users = await response.json()
 
         setUsers(users)
       } catch (error) {
-        console.log(error)
+        // Check if the error is caused by aborting
+        if (error.name === 'AbortError') {
+          console.log('Request aborted')
+        } else {
+          console.log(error)
+        }
       }
     }
     getUsers()
+
+    // Return a cleanup function that aborts the request
+    return () => {
+      controller.abort()
+    }
   }, [])
 
   return (
