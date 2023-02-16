@@ -6,18 +6,17 @@ const title = 'Github Users'
 const UseEffectFetchData = () => {
   const [users, setUsers] = useState([])
 
-  const getUsers = async () => {
-    try {
-      const response = await fetch(url)
-      const users = await response.json()
-
-      setUsers(users)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const response = await fetch(url)
+        const users = await response.json()
+
+        setUsers(users)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     getUsers()
   }, [])
 
