@@ -7,10 +7,14 @@ const UseEffectFetchData = () => {
   const [users, setUsers] = useState([])
 
   const getUsers = async () => {
-    const response = await fetch(url)
-    const users = await response.json()
-    // console.log(users)
-    setUsers(users)
+    try {
+      const response = await fetch(url)
+      const users = await response.json()
+
+      setUsers(users)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
